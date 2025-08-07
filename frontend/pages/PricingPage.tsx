@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Check, X, Star, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
 
 const PricingPage = () => {
@@ -80,7 +81,7 @@ const PricingPage = () => {
     },
     {
       question: 'Is there a free trial available?',
-      answer: 'Yes, we offer a 30-day free trial for all plans. No credit card required to start.',
+      answer: 'Yes, we offer a 14-day free trial for all plans. No credit card required to start.',
     },
     {
       question: 'What kind of support do you provide?',
@@ -101,42 +102,53 @@ const PricingPage = () => {
       {/* Hero Section */}
       <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Simple Pricing for
-            <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Every Clinic
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12">
-            Choose the perfect plan for your healthcare facility. All plans include our core features with no hidden fees.
-          </p>
-
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center mb-16">
-            <span className={`mr-3 text-lg font-medium ${!isYearly ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}`}>
-              Monthly
-            </span>
-            <button
-              onClick={() => setIsYearly(!isYearly)}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 ${
-                isYearly ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-            >
-              <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300 ${
-                  isYearly ? 'translate-x-7' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <span className={`ml-3 text-lg font-medium ${isYearly ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}`}>
-              Yearly
-            </span>
-            {isYearly && (
-              <span className="ml-3 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm font-medium">
-                Save 17%
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+              Simple Pricing for
+              <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Every Clinic
               </span>
-            )}
-          </div>
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12">
+              Choose the perfect plan for your healthcare facility. All plans include our core features with no hidden fees.
+            </p>
+
+            {/* Billing Toggle */}
+            <div className="flex items-center justify-center mb-16">
+              <span className={`mr-3 text-lg font-medium ${!isYearly ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                Monthly
+              </span>
+              <motion.button
+                onClick={() => setIsYearly(!isYearly)}
+                className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors duration-300 ${
+                  isYearly ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                }`}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.span
+                  className="inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300"
+                  animate={{ x: isYearly ? 28 : 4 }}
+                />
+              </motion.button>
+              <span className={`ml-3 text-lg font-medium ${isYearly ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                Yearly
+              </span>
+              {isYearly && (
+                <motion.span 
+                  className="ml-3 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm font-medium"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500 }}
+                >
+                  Save 17%
+                </motion.span>
+              )}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -145,21 +157,30 @@ const PricingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {plans.map((plan, index) => (
-              <div
+              <motion.div
                 key={plan.name}
-                className={`relative bg-white dark:bg-gray-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 ${
+                className={`relative bg-white dark:bg-gray-800 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 ${
                   plan.popular
                     ? 'border-blue-500 dark:border-blue-400 scale-105'
                     : 'border-gray-200 dark:border-gray-700'
                 }`}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <motion.div 
+                    className="absolute -top-4 left-1/2 transform -translate-x-1/2"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, type: "spring", stiffness: 500 }}
+                  >
                     <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-medium flex items-center">
                       <Star className="w-4 h-4 mr-1" />
                       Most Popular
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 <div className="p-8">
@@ -193,38 +214,60 @@ const PricingPage = () => {
                     </h4>
                     <ul className="space-y-3">
                       {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center">
+                        <motion.li 
+                          key={featureIndex} 
+                          className="flex items-center"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.1 * featureIndex }}
+                        >
                           <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
                           <span className="text-gray-600 dark:text-gray-300">{feature}</span>
-                        </li>
+                        </motion.li>
                       ))}
                       {plan.limitations.map((limitation, limitationIndex) => (
-                        <li key={limitationIndex} className="flex items-center">
+                        <motion.li 
+                          key={limitationIndex} 
+                          className="flex items-center"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.1 * (plan.features.length + limitationIndex) }}
+                        >
                           <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
                           <span className="text-gray-400 dark:text-gray-500">{limitation}</span>
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
                   </div>
 
                   {/* CTA Button */}
-                  <Button
-                    variant={plan.popular ? 'primary' : 'outline'}
-                    size="lg"
-                    className="w-full group"
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {plan.name === 'Enterprise' ? 'Contact Sales' : 'Start Free Trial'}
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                    <Button
+                      variant={plan.popular ? 'primary' : 'outline'}
+                      size="lg"
+                      className="w-full group"
+                    >
+                      {plan.name === 'Enterprise' ? 'Contact Sales' : 'Start Free Trial'}
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* Additional Info */}
-          <div className="text-center mt-16">
+          <motion.div 
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              All plans include 30-day free trial • No setup fees • Cancel anytime
+              All plans include 14-day free trial • No setup fees • Cancel anytime
             </p>
             <div className="flex justify-center items-center space-x-8 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center">
@@ -240,27 +283,38 @@ const PricingPage = () => {
                 24/7 Support
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* FAQ Section */}
       <section className="py-24 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300">
               Have questions? We have answers.
             </p>
-          </div>
+          </motion.div>
 
           <div className="space-y-8">
             {faqs.map((faq, index) => (
-              <div
+              <motion.div
                 key={index}
                 className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -2 }}
               >
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   {faq.question}
@@ -268,38 +322,61 @@ const PricingPage = () => {
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   {faq.answer}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-16">
+          <motion.div 
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               Still have questions? We're here to help.
             </p>
             <Button variant="primary" size="lg">
               Contact Support
             </Button>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of healthcare professionals who trust our platform to streamline their operations.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-              Start Free Trial
-            </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Schedule Demo
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Ready to Get Started?
+            </h2>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Join thousands of healthcare professionals who trust our platform to streamline their operations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                  Start Free Trial
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
+                  Schedule Demo
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

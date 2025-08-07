@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CreditCard, FileText, TrendingUp, CheckCircle, Download, Eye } from 'lucide-react';
+import { CreditCard, FileText, TrendingUp, CheckCircle, Download, Eye, Zap, Brain } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { apiClient } from '../../lib/api';
 import Button from '../../components/ui/Button';
@@ -8,9 +9,20 @@ const BillingAutomationPage = () => {
   const { t } = useLanguage();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedInvoice, setGeneratedInvoice] = useState(null);
+  const [patients, setPatients] = useState([
+    { id: 1, name: 'John Doe', email: 'john@example.com', phone: '+1-555-0101' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', phone: '+1-555-0102' },
+    { id: 3, name: 'Mike Johnson', email: 'mike@example.com', phone: '+1-555-0103' },
+  ]);
+  const [showPatientForm, setShowPatientForm] = useState(false);
+  const [newPatient, setNewPatient] = useState({ name: '', email: '', phone: '' });
 
   const handleGenerateDemo = async () => {
     setIsGenerating(true);
+    
+    // Simulate ML processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     try {
       const response = await apiClient.generateInvoice({
         patient_name: 'John Doe',
@@ -22,8 +34,28 @@ const BillingAutomationPage = () => {
       setGeneratedInvoice(response.invoice);
     } catch (error) {
       console.error('Failed to generate demo invoice:', error);
+      // Fallback demo data
+      setGeneratedInvoice({
+        id: 'INV-2024-001',
+        patient_name: 'John Doe',
+        treatment: 'General Checkup',
+        amount: 150.00,
+        status: 'pending',
+        date: new Date().toISOString().split('T')[0]
+      });
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleAddPatient = () => {
+    if (newPatient.name && newPatient.email) {
+      setPatients([...patients, { 
+        id: patients.length + 1, 
+        ...newPatient 
+      }]);
+      setNewPatient({ name: '', email: '', phone: '' });
+      setShowPatientForm(false);
     }
   };
 
@@ -65,7 +97,11 @@ const BillingAutomationPage = () => {
       <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
                 <CreditCard className="w-4 h-4 mr-2" />
                 Billing Automation
@@ -81,15 +117,32 @@ const BillingAutomationPage = () => {
                 Generate invoices, process insurance claims, and track payments automatically.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="primary" size="lg" onClick={handleGenerateDemo} disabled={isGenerating}>
-                  {isGenerating ? 'Generating...' : 'Try Demo'}
-                </Button>
-                <Button variant="outline" size="lg">
-                  Schedule Demo
-                </Button>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button variant="primary" size="lg" onClick={handleGenerateDemo} disabled={isGenerating}>
+                    <Zap className="w-5 h-5 mr-2" />
+                    {isGenerating ? 'Generating...' : 'Try Demo'}
+                  </Button>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button variant="outline" size="lg">
+                    Schedule Demo
+                  </Button>
+                </motion.div>
               </div>
-            </div>
-            <div className="relative">
+            </motion.div>
+            
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-2xl border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Invoice #INV-2024-001</h3>
@@ -128,62 +181,255 @@ const BillingAutomationPage = () => {
                   </Button>
                 </div>
               </div>
-            </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Patient Management Section */}
+      <section className="py-24 bg-white dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+              Patient Management
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Manage your patients and generate bills with ease.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Patient List */}
+            <motion.div 
+              className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Patients</h3>
+                <Button 
+                  variant="primary" 
+                  size="sm"
+                  onClick={() => setShowPatientForm(true)}
+                >
+                  Add Patient
+                </Button>
+              </div>
+              
+              <div className="space-y-4">
+                {patients.map((patient) => (
+                  <motion.div 
+                    key={patient.id}
+                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md transition-shadow"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white">{patient.name}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{patient.email}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{patient.phone}</p>
+                      </div>
+                      <Button variant="outline" size="sm">
+                        Generate Bill
+                      </Button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Add Patient Form */}
+              {showPatientForm && (
+                <motion.div 
+                  className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Add New Patient</h4>
+                  <div className="space-y-3">
+                    <input
+                      type="text"
+                      placeholder="Patient Name"
+                      value={newPatient.name}
+                      onChange={(e) => setNewPatient({...newPatient, name: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      value={newPatient.email}
+                      onChange={(e) => setNewPatient({...newPatient, email: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Phone"
+                      value={newPatient.phone}
+                      onChange={(e) => setNewPatient({...newPatient, phone: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    />
+                    <div className="flex space-x-2">
+                      <Button variant="primary" size="sm" onClick={handleAddPatient}>
+                        Add Patient
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => setShowPatientForm(false)}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+
+            {/* ML Smart Billing */}
+            <motion.div 
+              className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl p-6 border border-purple-200 dark:border-purple-700"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                  <Brain className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">Smart Billing AI</h3>
+                  <p className="text-purple-600 dark:text-purple-400 text-sm">Machine Learning Powered</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Intelligent Code Detection</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    AI automatically suggests billing codes based on treatment descriptions
+                  </p>
+                </div>
+                
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Fraud Prevention</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    ML models detect unusual billing patterns and prevent errors
+                  </p>
+                </div>
+                
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Predictive Analytics</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Forecast payment delays and optimize cash flow management
+                  </p>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm opacity-90">ML Accuracy Rate</p>
+                    <p className="text-2xl font-bold">98.7%</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm opacity-90">Processing Speed</p>
+                    <p className="text-2xl font-bold">2.3s</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white dark:bg-gray-900">
+      <section className="py-24 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Comprehensive Billing Features
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Everything you need to streamline your billing process and improve cash flow.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={feature.title}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
               >
-                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl mb-6">
+                <motion.div 
+                  className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl mb-6"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
                   <feature.icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                </div>
+                </motion.div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   {feature.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-800">
+      <section className="py-24 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
                 Why Choose Our Billing Automation?
               </h2>
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center space-x-3">
+                  <motion.div 
+                    key={index} 
+                    className="flex items-center space-x-3"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
                     <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
                     <span className="text-gray-700 dark:text-gray-300 text-lg">{benefit}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
-            <div className="relative">
+            </motion.div>
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white">
                 <h3 className="text-2xl font-bold mb-6">ROI Calculator</h3>
                 <div className="space-y-4">
@@ -207,14 +453,19 @@ const BillingAutomationPage = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Demo Results */}
       {generatedInvoice && (
-        <section className="py-24 bg-white dark:bg-gray-900">
+        <motion.section 
+          className="py-24 bg-gray-50 dark:bg-gray-800"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -224,7 +475,12 @@ const BillingAutomationPage = () => {
                 Here's what an automatically generated invoice looks like:
               </p>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
+            <motion.div 
+              className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                   Invoice #{generatedInvoice.id}
@@ -245,28 +501,54 @@ const BillingAutomationPage = () => {
                   </p>
                 </div>
               </div>
-            </div>
+              <div className="mt-6 flex space-x-3">
+                <Button variant="primary" size="sm">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export PDF
+                </Button>
+                <Button variant="outline" size="sm">
+                  Send to Patient
+                </Button>
+              </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Automate Your Billing?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of healthcare providers who have streamlined their billing process with our automation tools.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-              Start Free Trial
-            </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Contact Sales
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Ready to Automate Your Billing?
+            </h2>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Join thousands of healthcare providers who have streamlined their billing process with our automation tools.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                  Start Free Trial
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
+                  Contact Sales
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

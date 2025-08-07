@@ -44,6 +44,38 @@ const Header = () => {
     navigate('/');
   };
 
+  const scrollToSection = (sectionId) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleNavClick = (link) => {
+    if (link.path === '/' && location.pathname === '/') {
+      scrollToSection('hero');
+    } else if (link.path === '/features' && location.pathname === '/') {
+      scrollToSection('features');
+    } else if (link.path === '/pricing' && location.pathname === '/') {
+      scrollToSection('pricing');
+    } else if (link.path === '/contact' && location.pathname === '/') {
+      scrollToSection('contact');
+    } else {
+      navigate(link.path);
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -67,9 +99,9 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <Link
+              <button
                 key={link.name}
-                to={link.path}
+                onClick={() => handleNavClick(link)}
                 className={`text-sm font-medium transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400 ${
                   location.pathname === link.path
                     ? 'text-blue-600 dark:text-blue-400'
@@ -77,7 +109,7 @@ const Header = () => {
                 }`}
               >
                 {link.name}
-              </Link>
+              </button>
             ))}
           </nav>
 
@@ -143,18 +175,17 @@ const Header = () => {
           <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg">
             <nav className="px-4 py-4 space-y-4">
               {navLinks.map((link) => (
-                <Link
+                <button
                   key={link.name}
-                  to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block text-sm font-medium transition-colors duration-200 ${
+                  onClick={() => handleNavClick(link)}
+                  className={`block w-full text-left text-sm font-medium transition-colors duration-200 ${
                     location.pathname === link.path
                       ? 'text-blue-600 dark:text-blue-400'
                       : 'text-gray-700 dark:text-gray-300'
                   }`}
                 >
                   {link.name}
-                </Link>
+                </button>
               ))}
               
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">

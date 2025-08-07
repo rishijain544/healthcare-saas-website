@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Star, Phone, Navigation, Filter, Search } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { apiClient } from '../../lib/api';
 import Button from '../../components/ui/Button';
@@ -124,7 +125,12 @@ const GPSHospitalFinderPage = () => {
       {/* Hero Section */}
       <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
               <MapPin className="w-4 h-4 mr-2" />
               GPS Hospital Finder
@@ -138,10 +144,15 @@ const GPSHospitalFinderPage = () => {
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Discover top-rated hospitals and clinics in your area with our GPS-powered search. Read reviews, compare ratings, and find the best healthcare providers near you.
             </p>
-          </div>
+          </motion.div>
 
           {/* Search Filters */}
-          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 mb-8">
+          <motion.div 
+            className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -194,27 +205,56 @@ const GPSHospitalFinderPage = () => {
               </div>
               
               <div className="flex items-end">
-                <Button
-                  variant="primary"
-                  onClick={searchHospitals}
-                  disabled={isLoading || !userLocation}
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   className="w-full"
                 >
-                  {isLoading ? 'Searching...' : 'Search'}
-                </Button>
+                  <Button
+                    variant="primary"
+                    onClick={searchHospitals}
+                    disabled={isLoading || !userLocation}
+                    className="w-full"
+                  >
+                    {isLoading ? 'Searching...' : 'Search'}
+                  </Button>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Location Status */}
           {userLocation && (
-            <div className="text-center mb-8">
+            <motion.div 
+              className="text-center mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               <p className="text-green-600 dark:text-green-400 flex items-center justify-center">
                 <MapPin className="w-4 h-4 mr-2" />
                 Location detected: {userLocation.latitude.toFixed(4)}, {userLocation.longitude.toFixed(4)}
               </p>
-            </div>
+            </motion.div>
           )}
+
+          {/* Google Maps Placeholder */}
+          <motion.div 
+            className="max-w-4xl mx-auto bg-gray-200 dark:bg-gray-700 rounded-2xl h-64 flex items-center justify-center mb-8"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <div className="text-center">
+              <MapPin className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+              <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+                Interactive Google Maps
+              </p>
+              <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+                Real-time hospital locations and navigation
+              </p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -239,10 +279,14 @@ const GPSHospitalFinderPage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {hospitals.map((hospital) => (
-                <div
+              {hospitals.map((hospital, index) => (
+                <motion.div
                   key={hospital.id}
                   className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -313,20 +357,36 @@ const GPSHospitalFinderPage = () => {
                   </div>
 
                   <div className="flex space-x-2">
-                    <Button variant="primary" size="sm" className="flex-1">
-                      Book Appointment
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Navigation className="w-4 h-4" />
-                    </Button>
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex-1"
+                    >
+                      <Button variant="primary" size="sm" className="w-full">
+                        Book Appointment
+                      </Button>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button variant="outline" size="sm">
+                        <Navigation className="w-4 h-4" />
+                      </Button>
+                    </motion.div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
 
           {hospitals.length === 0 && !isLoading && (
-            <div className="text-center py-12">
+            <motion.div 
+              className="text-center py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 No hospitals found
@@ -337,7 +397,7 @@ const GPSHospitalFinderPage = () => {
               <Button variant="outline" onClick={loadHospitals}>
                 Show All Hospitals
               </Button>
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
@@ -345,31 +405,45 @@ const GPSHospitalFinderPage = () => {
       {/* Features Section */}
       <section className="py-24 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Why Use Our Hospital Finder?
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Find the best healthcare providers in your area with our advanced GPS-powered search and filtering system.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={feature.title}
                 className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
               >
-                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl mb-6">
+                <motion.div 
+                  className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl mb-6"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
                   <feature.icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                </div>
+                </motion.div>
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   {feature.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -378,20 +452,37 @@ const GPSHospitalFinderPage = () => {
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Find Your Perfect Healthcare Provider
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of patients who use our GPS hospital finder to locate the best healthcare providers in their area.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
-              Start Searching
-            </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Download App
-            </Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Find Your Perfect Healthcare Provider
+            </h2>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Join thousands of patients who use our GPS hospital finder to locate the best healthcare providers in their area.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="secondary" size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                  Start Searching
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-blue-600">
+                  Download App
+                </Button>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

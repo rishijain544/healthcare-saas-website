@@ -5,6 +5,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ChatBot from './components/ChatBot';
 import HomePage from './pages/HomePage';
 import FeaturesPage from './pages/FeaturesPage';
 import PricingPage from './pages/PricingPage';
@@ -64,6 +65,7 @@ function App() {
                 </Routes>
               </main>
               <Footer />
+              <ChatBot />
             </div>
           </Router>
         </AuthProvider>
