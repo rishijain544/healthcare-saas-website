@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Moon, Sun, User } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 import Button from './ui/Button';
+import LanguageToggle from './LanguageToggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isDark, toggleTheme } = useTheme();
+  const { t } = useLanguage();
+  const { user, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,12 +26,23 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Features', path: '/features' },
-    { name: 'Pricing', path: '/pricing' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('nav.home'), path: '/' },
+    { name: t('nav.features'), path: '/features' },
+    { name: t('nav.pricing'), path: '/pricing' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.contact'), path: '/contact' },
   ];
+
+  const handleDashboardClick = () => {
+    if (user) {
+      navigate(`/dashboard/${user.role}`);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <header
@@ -66,19 +83,46 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageToggle />
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
             >
               {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <Button variant="primary" size="sm">
-              Book a Demo
-            </Button>
+            
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={handleDashboardClick}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+                >
+                  <User size={16} />
+                  <span className="text-sm">{user.name}</span>
+                </button>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  {t('nav.logout')}
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link to="/login">
+                  <Button variant="ghost" size="sm">
+                    {t('nav.login')}
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button variant="primary" size="sm">
+                    {t('nav.signup')}
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
+            <LanguageToggle />
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
@@ -112,10 +156,45 @@ const Header = () => {
                   {link.name}
                 </Link>
               ))}
+              
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                <Button variant="primary" size="sm" className="w-full">
-                  Book a Demo
-                </Button>
+                {user ? (
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        handleDashboardClick();
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                    >
+                      {t('nav.dashboard')} - {user.name}
+                    </button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full" 
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      {t('nav.logout')}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="ghost" size="sm" className="w-full">
+                        {t('nav.login')}
+                      </Button>
+                    </Link>
+                    <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="primary" size="sm" className="w-full">
+                        {t('nav.signup')}
+                      </Button>
+                    </Link>
+                  </div>
+                )}
               </div>
             </nav>
           </div>
