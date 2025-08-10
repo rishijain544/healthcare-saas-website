@@ -1,9 +1,12 @@
 import React from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../../contexts/LanguageContext';
 import Button from '../ui/Button';
 
 const HeroSection = () => {
+  const { t, language } = useLanguage();
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
@@ -63,7 +66,7 @@ const HeroSection = () => {
             transition={{ duration: 0.6 }}
           >
             <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
-            AI-Powered Healthcare Platform
+            {language === 'hi' ? 'AI-संचालित स्वास्थ्य प्लेटफॉर्म' : 'AI-Powered Healthcare Platform'}
           </motion.div>
 
           {/* Main Headline */}
@@ -73,10 +76,21 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Smarter Healthcare,{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Simplified
-            </span>
+            {language === 'hi' ? (
+              <>
+                स्मार्ट स्वास्थ्य सेवा,{' '}
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  सरल
+                </span>
+              </>
+            ) : (
+              <>
+                Smarter Healthcare,{' '}
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Simplified
+                </span>
+              </>
+            )}
           </motion.h1>
 
           {/* Subheadline */}
@@ -86,12 +100,15 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Automate billing, AI appointment booking, ERP tools, and more with our comprehensive healthcare management platform.
+            {language === 'hi' 
+              ? 'हमारे व्यापक स्वास्थ्य प्रबंधन प्लेटफॉर्म के साथ बिलिंग, AI अपॉइंटमेंट बुकिंग, ERP टूल्स और बहुत कुछ स्वचालित करें।'
+              : 'Automate billing, AI appointment booking, ERP tools, and more with our comprehensive healthcare management platform.'
+            }
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -100,8 +117,8 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button variant="primary" size="lg" className="group">
-                Get Started
+              <Button variant="primary" size="lg" className="group min-w-[200px]">
+                {language === 'hi' ? 'शुरू करें' : 'Get Started'}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
@@ -109,9 +126,9 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button variant="outline" size="lg" className="group">
+              <Button variant="outline" size="lg" className="group min-w-[200px]">
                 <Play className="mr-2 h-5 w-5" />
-                Book a Demo
+                {language === 'hi' ? 'डेमो देखें' : 'Watch Demo'}
               </Button>
             </motion.div>
           </motion.div>
@@ -128,21 +145,27 @@ const HeroSection = () => {
               whileHover={{ scale: 1.05 }}
             >
               <div className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">500+</div>
-              <div className="text-gray-600 dark:text-gray-400">Healthcare Facilities</div>
+              <div className="text-gray-600 dark:text-gray-400">
+                {language === 'hi' ? 'स्वास्थ्य सुविधाएं' : 'Healthcare Facilities'}
+              </div>
             </motion.div>
             <motion.div 
               className="text-center"
               whileHover={{ scale: 1.05 }}
             >
               <div className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">99.9%</div>
-              <div className="text-gray-600 dark:text-gray-400">Uptime Guarantee</div>
+              <div className="text-gray-600 dark:text-gray-400">
+                {language === 'hi' ? 'अपटाइम गारंटी' : 'Uptime Guarantee'}
+              </div>
             </motion.div>
             <motion.div 
               className="text-center"
               whileHover={{ scale: 1.05 }}
             >
               <div className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">24/7</div>
-              <div className="text-gray-600 dark:text-gray-400">Support Available</div>
+              <div className="text-gray-600 dark:text-gray-400">
+                {language === 'hi' ? 'सहायता उपलब्ध' : 'Support Available'}
+              </div>
             </motion.div>
           </motion.div>
         </div>

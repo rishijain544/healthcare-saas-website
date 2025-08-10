@@ -1,13 +1,19 @@
 import React from 'react';
 import { Users, Target, Award, Heart, Linkedin, Twitter, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const AboutPage = () => {
+  const { language } = useLanguage();
+
   const teamMembers = [
     {
       name: 'Dr. Sarah Johnson',
-      role: 'CEO & Co-Founder',
+      role: language === 'hi' ? 'CEO और सह-संस्थापक' : 'CEO & Co-Founder',
       image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=face',
-      bio: 'Former Chief Medical Officer with 15+ years in healthcare technology.',
+      bio: language === 'hi' 
+        ? 'स्वास्थ्य प्रौद्योगिकी में 15+ वर्षों के अनुभव के साथ पूर्व मुख्य चिकित्सा अधिकारी।'
+        : 'Former Chief Medical Officer with 15+ years in healthcare technology.',
       social: {
         linkedin: '#',
         twitter: '#',
@@ -16,9 +22,11 @@ const AboutPage = () => {
     },
     {
       name: 'Michael Chen',
-      role: 'CTO & Co-Founder',
+      role: language === 'hi' ? 'CTO और सह-संस्थापक' : 'CTO & Co-Founder',
       image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=300&h=300&fit=crop&crop=face',
-      bio: 'AI researcher and former Google engineer specializing in healthcare applications.',
+      bio: language === 'hi'
+        ? 'AI शोधकर्ता और पूर्व Google इंजीनियर जो स्वास्थ्य अनुप्रयोगों में विशेषज्ञता रखते हैं।'
+        : 'AI researcher and former Google engineer specializing in healthcare applications.',
       social: {
         linkedin: '#',
         twitter: '#',
@@ -27,9 +35,11 @@ const AboutPage = () => {
     },
     {
       name: 'Dr. Emily Rodriguez',
-      role: 'Chief Medical Advisor',
+      role: language === 'hi' ? 'मुख्य चिकित्सा सलाहकार' : 'Chief Medical Advisor',
       image: 'https://images.unsplash.com/photo-1594824475317-d0b8e8b5e8e5?w=300&h=300&fit=crop&crop=face',
-      bio: 'Practicing physician and healthcare innovation expert with 20+ years experience.',
+      bio: language === 'hi'
+        ? '20+ वर्षों के अनुभव के साथ प्रैक्टिसिंग चिकित्सक और स्वास्थ्य नवाचार विशेषज्ञ।'
+        : 'Practicing physician and healthcare innovation expert with 20+ years experience.',
       social: {
         linkedin: '#',
         twitter: '#',
@@ -38,9 +48,11 @@ const AboutPage = () => {
     },
     {
       name: 'James Wilson',
-      role: 'VP of Engineering',
+      role: language === 'hi' ? 'इंजीनियरिंग के VP' : 'VP of Engineering',
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face',
-      bio: 'Full-stack engineer with expertise in scalable healthcare systems.',
+      bio: language === 'hi'
+        ? 'स्केलेबल स्वास्थ्य सिस्टम में विशेषज्ञता के साथ फुल-स्टैक इंजीनियर।'
+        : 'Full-stack engineer with expertise in scalable healthcare systems.',
       social: {
         linkedin: '#',
         twitter: '#',
@@ -49,76 +61,47 @@ const AboutPage = () => {
     },
     {
       name: 'Lisa Park',
-      role: 'Head of Product',
+      role: language === 'hi' ? 'उत्पाद प्रमुख' : 'Head of Product',
       image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop&crop=face',
-      bio: 'Product strategist focused on user experience in healthcare technology.',
+      bio: language === 'hi'
+        ? 'स्वास्थ्य प्रौद्योगिकी में उपयोगकर्ता अनुभव पर केंद्रित उत्पाद रणनीतिकार।'
+        : 'Product strategist focused on user experience in healthcare technology.',
       social: {
         linkedin: '#',
         twitter: '#',
         email: 'lisa@healthai.com'
       }
     },
-    {
-      name: 'David Kumar',
-      role: 'Head of Sales',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face',
-      bio: 'Healthcare sales veteran helping facilities transform their operations.',
-      social: {
-        linkedin: '#',
-        twitter: '#',
-        email: 'david@healthai.com'
-      }
-    },
-  ];
-
-  const timeline = [
-    {
-      year: '2020',
-      title: 'Company Founded',
-      description: 'HealthAI was founded with a mission to revolutionize healthcare through AI-powered automation.',
-    },
-    {
-      year: '2021',
-      title: 'First Product Launch',
-      description: 'Launched our billing automation platform, serving 50+ healthcare facilities in the first year.',
-    },
-    {
-      year: '2022',
-      title: 'AI Assistant Release',
-      description: 'Introduced our AI talking agent, revolutionizing patient communication and appointment scheduling.',
-    },
-    {
-      year: '2023',
-      title: 'Series A Funding',
-      description: 'Raised $25M in Series A funding to accelerate product development and market expansion.',
-    },
-    {
-      year: '2024',
-      title: 'Global Expansion',
-      description: 'Expanded to serve 500+ healthcare facilities worldwide with our comprehensive platform.',
-    },
   ];
 
   const values = [
     {
       icon: Heart,
-      title: 'Patient-Centric',
-      description: 'Every feature we build is designed to improve patient outcomes and experiences.',
+      title: language === 'hi' ? 'रोगी-केंद्रित' : 'Patient-Centric',
+      description: language === 'hi' 
+        ? 'हमारी हर सुविधा रोगी के परिणामों और अनुभवों को बेहतर बनाने के लिए डिज़ाइन की गई है।'
+        : 'Every feature we build is designed to improve patient outcomes and experiences.',
     },
     {
       icon: Target,
-      title: 'Innovation',
-      description: 'We continuously push the boundaries of what\'s possible in healthcare technology.',
+      title: language === 'hi' ? 'नवाचार' : 'Innovation',
+      description: language === 'hi'
+        ? 'हम लगातार स्वास्थ्य प्रौद्योगिकी में संभावनाओं की सीमाओं को आगे बढ़ाते हैं।'
+        : 'We continuously push the boundaries of what\'s possible in healthcare technology.',
     },
     {
       icon: Users,
-      title: 'Collaboration',
-      description: 'We believe in working together with healthcare professionals to create better solutions.',
+      title: language === 'hi' ? 'सहयोग' : 'Collaboration',
+      description: language === 'hi'
+        ? 'हम बेहतर समाधान बनाने के लिए स्वास्थ्य पेशेवरों के साथ मिलकर काम करने में विश्वास करते हैं।'
+        : 'We believe in working together with healthcare professionals to create better solutions.',
     },
     {
       icon: Award,
-      title: 'Excellence',
-      description: 'We strive for excellence in everything we do, from product quality to customer service.',
+      title: language === 'hi' ? 'उत्कृष्टता' : 'Excellence',
+      description: language === 'hi'
+        ? 'हम उत्पाद की गुणवत्ता से लेकर ग्राहक सेवा तक, हर काम में उत्कृष्टता के लिए प्रयास करते हैं।'
+        : 'We strive for excellence in everything we do, from product quality to customer service.',
     },
   ];
 
@@ -127,58 +110,123 @@ const AboutPage = () => {
       {/* Hero Section */}
       <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Transforming Healthcare
-            <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Through Innovation
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            We're on a mission to make healthcare more efficient, accessible, and patient-focused through the power of artificial intelligence and modern technology.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+              {language === 'hi' ? (
+                <>
+                  नवाचार के माध्यम से
+                  <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    स्वास्थ्य सेवा को बदलना
+                  </span>
+                </>
+              ) : (
+                <>
+                  Transforming Healthcare
+                  <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Through Innovation
+                  </span>
+                </>
+              )}
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              {language === 'hi'
+                ? 'हमारा मिशन कृत्रिम बुद्धिमत्ता और आधुनिक तकनीक की शक्ति के माध्यम से स्वास्थ्य सेवा को अधिक कुशल, सुलभ और रोगी-केंद्रित बनाना है।'
+                : 'We\'re on a mission to make healthcare more efficient, accessible, and patient-focused through the power of artificial intelligence and modern technology.'
+              }
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
+      {/* Vision Section */}
       <section className="py-24 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">
-                Our Mission
+                {language === 'hi' ? 'हमारा दृष्टिकोण' : 'Our Vision'}
               </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                To revolutionize healthcare operations by providing AI-powered automation tools that reduce administrative burden, improve patient care, and enable healthcare professionals to focus on what matters most - healing.
-              </p>
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Our Vision</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  A world where healthcare facilities operate seamlessly, patients receive exceptional care, and medical professionals can dedicate their time to healing rather than paperwork.
-                </p>
+              <div className="space-y-6">
+                <motion.div 
+                  className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-8"
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    {language === 'hi' ? 'भविष्य की स्वास्थ्य सेवा' : 'Future of Healthcare'}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                    {language === 'hi'
+                      ? 'एक ऐसी दुनिया जहां स्वास्थ्य सुविधाएं निर्बाध रूप से संचालित होती हैं, रोगियों को असाधारण देखभाल मिलती है, और चिकित्सा पेशेवर कागजी कार्रवाई के बजाय उपचार पर अपना समय समर्पित कर सकते हैं।'
+                      : 'A world where healthcare facilities operate seamlessly, patients receive exceptional care, and medical professionals can dedicate their time to healing rather than paperwork.'
+                    }
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    {language === 'hi'
+                      ? 'हम AI और स्वचालन के माध्यम से स्वास्थ्य सेवा में क्रांति लाने के लिए प्रतिबद्ध हैं, जिससे प्रदाताओं को बेहतर परिणाम देने और रोगियों को बेहतर अनुभव प्रदान करने में मदद मिलती है।'
+                      : 'We are committed to revolutionizing healthcare through AI and automation, enabling providers to deliver better outcomes and patients to receive superior experiences.'
+                    }
+                  </p>
+                </motion.div>
               </div>
-            </div>
-            <div className="relative">
+            </motion.div>
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white">
                 <div className="grid grid-cols-2 gap-8">
-                  <div className="text-center">
+                  <motion.div 
+                    className="text-center"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     <div className="text-4xl font-bold mb-2">500+</div>
-                    <div className="text-blue-100">Healthcare Facilities</div>
-                  </div>
-                  <div className="text-center">
+                    <div className="text-blue-100">
+                      {language === 'hi' ? 'स्वास्थ्य सुविधाएं' : 'Healthcare Facilities'}
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="text-center"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     <div className="text-4xl font-bold mb-2">1M+</div>
-                    <div className="text-blue-100">Patients Served</div>
-                  </div>
-                  <div className="text-center">
+                    <div className="text-blue-100">
+                      {language === 'hi' ? 'रोगियों की सेवा' : 'Patients Served'}
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="text-center"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     <div className="text-4xl font-bold mb-2">99.9%</div>
-                    <div className="text-blue-100">Uptime</div>
-                  </div>
-                  <div className="text-center">
+                    <div className="text-blue-100">
+                      {language === 'hi' ? 'अपटाइम' : 'Uptime'}
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="text-center"
+                    whileHover={{ scale: 1.05 }}
+                  >
                     <div className="text-4xl font-bold mb-2">24/7</div>
-                    <div className="text-blue-100">Support</div>
-                  </div>
+                    <div className="text-blue-100">
+                      {language === 'hi' ? 'सहायता' : 'Support'}
+                    </div>
+                  </motion.div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -186,31 +234,48 @@ const AboutPage = () => {
       {/* Values */}
       <section className="py-24 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Our Values
+              {language === 'hi' ? 'हमारे मूल्य' : 'Our Values'}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              The principles that guide everything we do and every decision we make.
+              {language === 'hi'
+                ? 'वे सिद्धांत जो हमारे हर काम और हर निर्णय का मार्गदर्शन करते हैं।'
+                : 'The principles that guide everything we do and every decision we make.'
+              }
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <div
+              <motion.div
                 key={value.title}
-                className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700 text-center"
+                className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-500 border border-gray-200 dark:border-gray-700 text-center group"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10, scale: 1.02 }}
               >
-                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl mb-6 mx-auto">
+                <motion.div 
+                  className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-2xl mb-6 mx-auto"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                >
                   <value.icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                </motion.div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {value.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   {value.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -219,28 +284,52 @@ const AboutPage = () => {
       {/* Team Section */}
       <section className="py-24 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Meet Our Team
+              {language === 'hi' ? 'हमारी टीम से मिलें' : 'Meet Our Team'}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              The passionate individuals behind HealthAI, combining healthcare expertise with cutting-edge technology.
+              {language === 'hi'
+                ? 'HealthAI के पीछे के जुनूनी व्यक्ति, स्वास्थ्य विशेषज्ञता को अत्याधुनिक तकनीक के साथ जोड़ते हैं।'
+                : 'The passionate individuals behind HealthAI, combining healthcare expertise with cutting-edge technology.'
+              }
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <div
+              <motion.div
                 key={member.name}
-                className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700"
+                className="group bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200 dark:border-gray-700 relative overflow-hidden"
+                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10, scale: 1.02 }}
               >
-                <div className="text-center">
-                  <img
+                {/* Hover Background Effect */}
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                />
+
+                <div className="relative z-10 text-center">
+                  <motion.img
                     src={member.image}
                     alt={member.name}
                     className="w-24 h-24 rounded-full mx-auto mb-6 object-cover border-4 border-gray-100 dark:border-gray-700 group-hover:border-blue-500 transition-colors duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
                   />
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {member.name}
                   </h3>
                   <p className="text-blue-600 dark:text-blue-400 font-medium mb-4">
@@ -250,79 +339,34 @@ const AboutPage = () => {
                     {member.bio}
                   </p>
                   <div className="flex justify-center space-x-4">
-                    <a
+                    <motion.a
                       href={member.social.linkedin}
                       className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <Linkedin size={18} />
-                    </a>
-                    <a
+                    </motion.a>
+                    <motion.a
                       href={member.social.twitter}
                       className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <Twitter size={18} />
-                    </a>
-                    <a
+                    </motion.a>
+                    <motion.a
                       href={`mailto:${member.social.email}`}
                       className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white transition-colors duration-200"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <Mail size={18} />
-                    </a>
+                    </motion.a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-              Our Journey
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              From a small startup to a leading healthcare technology platform.
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-400 to-purple-400 hidden lg:block"></div>
-
-            <div className="space-y-12">
-              {timeline.map((item, index) => (
-                <div
-                  key={item.year}
-                  className={`flex items-center ${
-                    index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                  } flex-col lg:space-x-8`}
-                >
-                  <div className="lg:w-1/2 mb-8 lg:mb-0">
-                    <div className={`bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 ${
-                      index % 2 === 0 ? 'lg:text-right' : 'lg:text-left'
-                    } text-center`}>
-                      <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">
-                        {item.year}
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Timeline Dot */}
-                  <div className="hidden lg:block w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full border-4 border-white dark:border-gray-800 shadow-lg z-10"></div>
-
-                  <div className="lg:w-1/2"></div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -330,20 +374,38 @@ const AboutPage = () => {
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Join Our Mission
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Whether you're a healthcare professional looking to transform your operations or a talented individual wanting to make a difference, we'd love to hear from you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-300 transform hover:-translate-y-1 shadow-lg">
-              Contact Us
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors duration-300">
-              View Careers
-            </button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-white mb-6">
+              {language === 'hi' ? 'हमारे मिशन में शामिल हों' : 'Join Our Mission'}
+            </h2>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              {language === 'hi'
+                ? 'चाहे आप एक स्वास्थ्य पेशेवर हों जो अपने संचालन को बदलना चाहते हैं या एक प्रतिभाशाली व्यक्ति हैं जो बदलाव लाना चाहते हैं, हम आपसे सुनना चाहेंगे।'
+                : 'Whether you\'re a healthcare professional looking to transform your operations or a talented individual wanting to make a difference, we\'d love to hear from you.'
+              }
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button 
+                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-300 transform hover:-translate-y-1 shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {language === 'hi' ? 'हमसे संपर्क करें' : 'Contact Us'}
+              </motion.button>
+              <motion.button 
+                className="border-2 border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {language === 'hi' ? 'करियर देखें' : 'View Careers'}
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>
